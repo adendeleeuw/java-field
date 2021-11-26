@@ -1,34 +1,31 @@
-import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class Board
 {
+    private Grid grid;
 
-private Grid grid;
+    public Board()
+    {
+        this.grid = new Grid();
+    }
 
-public Board(){
-    this.grid = new Grid();
-}
+    public Board(Grid grid)
+    {
+        this.grid = grid;
+    }
 
+    public Grid getGrid()
+    {
+        return grid;
+    }
 
-public Board(Grid grid)
-{
-    this.grid = grid;
-    System.out.println("\ngenerating map...\n");
-}
-
-public Grid getGrid(){
-    return grid;
-}
-
-    public void initiateArray(ArrayList<BoostArray> boostArray )
+    public void initiateArray(ArrayList<BoostArray> boostArray)
     {
         GridSpace[] gridArray = this.getGrid().getGridArray();
         ArrayList<Integer> gridSize = new ArrayList<Integer>();
         for (int i = 0; i < gridArray.length; i++)
         {
-            //this.getGrid().setGridArrayValue(i, " - ");
             gridArray[i] = new GridSpace();
             gridSize.add(i);
         }
@@ -45,38 +42,43 @@ public Grid getGrid(){
 
     public void renderBoard()
     {
-
-    int columns = grid.getColumns();
-    int rows = grid.getRows();
-    GridSpace[] gridArray = grid.getGridArray();
-    
-        //to generate the column headers
-    System.out.print("  ");
-    for (int i = 1; i < columns + 1; i++ )
-     {
+        int columns = grid.getColumns();
+        int rows = grid.getRows();
+        GridSpace[] gridArray = grid.getGridArray();
+        System.out.println("\n");
+        System.out.print("  ");  
+        for (int i = 1; i < columns + 1; i++ ) //to generate the column headers
+        {
             System.out.print(" " + i + " ");
-     } 
-     System.out.println();
+        } 
+        System.out.println();
 
-        // for the main board
-
-    for (int i = 0; i < gridArray.length ; i++)
-    {
-        if (i == 0)
+        for (int i = 0; i < gridArray.length ; i++)  // for the main board
         {
-            System.out.print(" "+ (i+1));
-        }
-        System.out.print(gridArray[i].getGridValue());
-        
-        if ((i + 1) % columns == 0)
-        {
-            if ((i + 1) % (rows * columns) != 0)
+            if (i == 0)
             {
-                System.out.print("\n " + ((i / columns)+2));
+                System.out.print(" " + (i + 1));
+            }
+            System.out.print(gridArray[i].getGridValue());
+            
+            if ((i + 1) % columns == 0)
+            {
+                if ((i + 1) % (rows * columns) != 0)
+                {
+                    System.out.print("\n " + ((i / columns) + 2));
+                }
             }
         }
     }
 
+    public void setGrid(Grid grid)
+    {
+        this.grid = grid;
+    }
+
+    public String toString()
+    {
+        return "Grid: " + grid;
     }
 
 }
