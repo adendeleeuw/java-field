@@ -56,7 +56,8 @@ public class Strike
                 if ( gridArray[(x * columns) + y].getGridValue().equals(token))
                 {
                     canStrike.add(true);
-                } else 
+                } 
+                else 
                 {
                     canStrike.add(false);
                 }
@@ -64,10 +65,10 @@ public class Strike
             if (!canStrike.contains(false))
             {
                 return true;
-            } else {
-            }
+            } 
         }
         return false;
+    }
 
-
-    }}
+    
+}
