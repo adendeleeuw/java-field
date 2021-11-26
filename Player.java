@@ -1,5 +1,5 @@
-public class Player{
-
+public class Player
+{
     private PlayerStats playerStats;
     private String name;
     private String playerToken;
@@ -16,23 +16,6 @@ public class Player{
         this.name = name;
         this.playerStats = playerStats;
         this.playerToken = (" " + name.substring(0, 1) + " ");
-        
-    }
-
-    public String display()
-    {
-        String display = ("\nName: " + name + this.getPlayerStats().display());
-        return display;
-    }
-
-    public PlayerStats getPlayerStats()
-    {
-        return playerStats;
-    }
-
-    public void setPlayerStats(PlayerStats playerStats)
-    {
-        this.playerStats = playerStats;
     }
 
     public String getName()
@@ -40,14 +23,34 @@ public class Player{
         return name;
     }
 
+    public PlayerStats getPlayerStats()
+    {
+        return playerStats;
+    }
+
     public String getPlayerToken()
     {
         return playerToken;
     }
 
+    public void setPlayerName(String name)
+    {
+        this.name = name;
+    }
+
+    public void setPlayerStats(PlayerStats playerStats)
+    {
+        this.playerStats = playerStats;
+    }
+
     public void setPlayerToken(String playerToken)
     {
         this.playerToken = playerToken;
+    }
+
+    public String toString()
+    {
+        return ("\nName: " + name + playerStats);
     }
 
 }
