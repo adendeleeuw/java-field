@@ -1,6 +1,5 @@
 public class Grid
 {
-    
     private int rows;
     private int columns;
     private GridSpace[] gridArray;
@@ -19,9 +18,14 @@ public class Grid
         this.gridArray = new GridSpace[rows*columns];
     }
 
-    public String toString()
+    public int getColumns() 
     {
-        return "\nRows: " + this.rows + "\nColumns: " + this.columns + "\nGrid Array: " + this.gridArray.toString();
+        return columns;
+    }
+
+    public GridSpace[] getGridArray() 
+    {
+        return gridArray;
     }
 
     public int getRows() 
@@ -29,24 +33,14 @@ public class Grid
         return rows;
     }
 
-    public void setRows(int rows) 
-    {
-        this.rows = rows;
-    }
-
-    public int getColumns() 
-    {
-        return columns;
-    }
-
     public void setColumns(int columns) 
     {
         this.columns = columns;
     }
 
-    public GridSpace[] getGridArray() 
+    public void setRows(int rows) 
     {
-        return gridArray;
+        this.rows = rows;
     }
 
     public void setGridArray(GridSpace[] gridArray) 
@@ -57,6 +51,11 @@ public class Grid
     public void setGridArrayValue(int position, String value)
     {
         this.gridArray[position].setGridValue(value);
+    }
+
+    public String toString()
+    {
+        return "\nRows: " + this.rows + "\nColumns: " + this.columns + "\nGrid Array: " + this.gridArray;
     }
 
 }
