@@ -1,12 +1,11 @@
 public class BoostArray
 {
-
     private String boostType;
     private int boostValue;
 
     public BoostArray()
     {
-        this.boostType = "undefined";
+        this.boostType = "";
         this.boostValue = 0;
     }
 
@@ -14,11 +13,6 @@ public class BoostArray
     {
         this.boostType = boostType;
         this.boostValue = boostValue;
-    }
-
-    public String toString()
-    {
-        return "\nBoost Type: " + this.boostType + "\nBoost Value: " + this.boostValue;
     }
 
     public String getBoostType()
@@ -39,6 +33,11 @@ public class BoostArray
     public void setBoostValue(int boostValue)
     {
         this.boostValue = boostValue;
+    }
+
+    public String toString()
+    {
+        return "\nBoost Type: " + this.boostType + "\nBoost Value: " + this.boostValue;
     }
 
 }
