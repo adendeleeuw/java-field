@@ -7,7 +7,6 @@ public class GridSpace
     {
         this.gridValue = " - ";
         this.boostArray = new BoostArray();
-        
     }
 
     public GridSpace(String gridValue)
@@ -22,19 +21,14 @@ public class GridSpace
         this.boostArray = boostArray;
     }
 
-    public String toString()
+    public BoostArray getBoostArray()
     {
-        return "\nGrid Value: " + this.gridValue + this.boostArray.toString();
+        return boostArray;
     }
 
     public String getGridValue()
     {
         return gridValue;
-    }
-
-    public BoostArray getBoostArray()
-    {
-        return boostArray;
     }
 
     public void setGridValue(String gridValue)
@@ -47,4 +41,8 @@ public class GridSpace
         this.boostArray = boostArray;
     }
 
+    public String toString()
+    {
+        return "\nGrid Value: " + this.gridValue + this.boostArray.toString();
+    }
 }
