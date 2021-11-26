@@ -1,10 +1,11 @@
-import java.util.Scanner;
-import java.util.ArrayList;
 import java.util.Random;
+
+   /** Main class which contains the main method and gameplay loop
+    *@author Aden de Leeuw
+    *@version 1.0 */
 
 public class Field
 {
-
     private Board board;
     private Boosts boosts;
     private Capture capture;
@@ -14,6 +15,8 @@ public class Field
     private Sabotage sabotage;
     private Strike strike;
 
+    /** Default constructor which creates the object of the class Field. 
+     */
     public Field() 
     {
         this.board = new Board();
@@ -21,201 +24,247 @@ public class Field
         this.capture = new Capture();
         this.input = new Input();
         this.player1 = new Player();
-        this.player2 = new Player("ℙlayer 2", new PlayerStats(5, 7, 10000));
+        this.player2 = new Player("ℙlayer 2", new PlayerStats(5, 7, 10000, 3));
         this.sabotage = new Sabotage();
         this.strike = new Strike();
         new StartScreen();
     }
 
-    public static void main(String[] args)
-    {
-        //reading boosts from Field
-        Field field = new Field();
-
-        //creating players
-        field.setPlayer1(new Player(field.inputName(), new PlayerStats(20, 20, 3000)));
-
-        //Getting board size from player and rendering board
-        ArrayList<Integer> size = field.createBoard();
-        field.setBoard(new Board(new Grid(size.get(0), size.get(1))));
-        field.board.initiateArray(field.getBoosts().getBoostArray());
-        field.board.renderBoard();
-
-        //gameplay starts until 1 player hearts = 0
-
-          while(field.player1.getPlayerStats().getHearts() > 0 &&
-                 field.player2.getPlayerStats().getHearts() > 0)
-          {
-              //player 1 turn
-            while (true)
-            {
-                int choice = field.getInput().acceptInt("\n1. Capture Grid Spot \n2. Sabotage Enemy" 
-                                                      + "\n3. Direct Strike at Heart \n4. Show player stats");            
-                if (choice == 1) // Play Capture
-                {
-                    field.capture.playCapture(field.getPlayer1(), field.getPlayer2(),
-                                              field.getBoard(), false);
-                    field.board.renderBoard();
-                    break;
-                }
-                else if (choice == 2) // Play Sabotage
-                {
-                    field.sabotage.playSabotage(field.getPlayer1(), field.getPlayer2(), 
-                                                field.getBoard(), false);
-                    break;
-                }
-                else if (choice == 3) // Play Strike
-                {
-                    field.strike.playStrike(field.getBoard().getGrid(), field.getPlayer1(),
-                                            field.getPlayer2(), false);
-                    break;
-                }
-                else if (choice == 4) // Check Player stats
-                {
-                    System.out.println(field.getPlayer1().display());
-                    break;
-                }
-                else
-                {
-                    System.out.println("Invalid choice selected");
-                }
-            }   
-
-                field.getInput().pressAnyKeyToContinue(); //Player 2's turn
-
-                System.out.println("\n\n" + field.getPlayer2().getName() + "'s turn");
-                Random random = new Random();
-                int choice = random.nextInt(2) + 1;
-                boolean playerCanStrike = field.strike.canPlayStrike(field.getBoard().getGrid(),
-                                                                field.getPlayer1(), field.getPlayer2(), true);
-                switch (choice)
-                {
-                    case 1:
-                        field.capture.playCapture(field.getPlayer1(), field.getPlayer2(),
-                                                  field.getBoard(), true);
-                        field.board.renderBoard();
-                        break;
-                    case 2:
-                        field.sabotage.playSabotageComputer(field.getPlayer1(), field.getPlayer2(),
-                                                            field.getBoard(), playerCanStrike);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }         
-
-    public String inputName()
-    {
-        String name = "";
-        while(true)
-    {
-        name = this.getInput().acceptString("\nPlease enter your name");
-        if ( name.length() >= 3 && name.length() <= 12 )
-            {
-            break;
-            } 
-        else
-        {
-            System.out.println("\nPlease enter name between 3 and 12 characters");
-        }
-        }
-        return name;
-    }
-
-    public ArrayList<Integer> createBoard()
-    {
-        int rows = 0;
-        int columns = 0;
-        ArrayList<Integer> size = new ArrayList<Integer>();
-        String choice = this.getInput().acceptString("\n\nWhat size board would you like to play on?" +
-                            "\n1. Small (3x3) \n2. Medium (7x7) \n3. Large (10x10) \n4. Custom");
-            switch(choice) 
-            {
-                case "1":  
-                    rows = 3;
-                    columns = 3;
-                    System.out.println("Starting a small sized game.... \n\n");
-                    size.add(rows);
-                    size.add(columns);
-                    break;
-                case "2":
-                    rows = 7;
-                    columns = 7;
-                    System.out.println("Starting a medium sized game.... \n\n");
-                    size.add(rows);
-                    size.add(columns);
-                    break;
-                case "3":
-                    rows = 10;
-                    columns = 10;
-                    System.out.println("Starting a large sized game.... \n\n");
-                    size.add(rows);
-                    size.add(columns);
-                    break;
-                case "4":
-                    while (true)
-                    {
-                    rows = this.getInput().acceptInt("\nSet map height (between 3 and 10)");
-                    columns = this.getInput().acceptInt("\nSet map width (between 3 and 10)");
-                    if ( rows >= 3 && rows <= 10 && columns >= 3 && columns <= 10 )
-                    {
-                        size.add(rows);
-                        size.add(columns);
-                        break;
-                    }
-                    System.out.println("\nPlease make sure the number is between 3 and 10");
-                    }
-                    break;
-                default:
-                    System.out.println("\nInvalid choice was selected, please try again");
-                    size = createBoard();
-                    break;
-            }
-            return size;
-            }
-            
-
+    /** Accessor method to get the boosts available
+     * @return              An object of type Boost */
     public Boosts getBoosts()
     {
         return boosts;
     }
 
+    /** Accessor method to get the game board
+     * @return              An object of type Board
+     */
     public Board getBoard()
     {
         return board;
     }
 
-    public Player getPlayer1()
+    /** Accessor method to get the capture game functionality
+     * @return              An object of type Capture
+     */
+    public Capture getCapture()
     {
-        return player1;
+        return capture;
     }
 
-    public Player getPlayer2()
-    {
-        return player2;
-    }
-
-    public void setBoard(Board board)
-    {
-        this.board = board;
-    }
-
-    public void setPlayer1(Player player1)
-    {
-        this.player1 = player1;
-    }
-
-    public void setPlayer2(Player player2)
-    {
-        this.player2 = player2;
-    }
-
+    /** Accessor method to get the Input class
+     * @return              An object of type Input
+     */
     public Input getInput()
     {
         return input;
     }
 
+    /** Accessor method to get player1
+     * @return              An object of type Player
+     */
+    public Player getPlayer1()
+    {
+        return player1;
+    }
+
+    /** Accessor method to get player2
+     * @return              An object of type Player that belongs to the computer
+     */
+    public Player getPlayer2()
+    {
+        return player2;
+    }
+
+    /** Accessor method to get sabotage game functionality
+     * @return              An object of type Sabotage
+     */
+    public Sabotage getSabotage()
+    {
+        return sabotage;
+    }
+
+    /** Accessor method to get strike game functionality
+     * @return              An object of type Strike
+     */
+    public Strike getStrike()
+    {
+        return strike;
+    }
+
+    /** Method to begin the program.
+     * @param args          An array of Strings representing command line arguments.
+     */
+    public static void main(String[] args)
+    {
+        //initialising the game     
+        int round = 1; 
+        Field field = new Field();
+        field.setPlayer1(new Player(field.input.inputName(), new PlayerStats(5, 7, 3000, 3)));
+
+        //Getting board size input from user and rendering board
+        int[] size = field.input.inputBoard();
+        field.setBoard(new Board(new Grid(size[0], size[1])));
+        field.board.initiateArray(field.getBoosts().getBoostArray());
+        field.board.renderBoard();
+
+        while(true) //gameplay loop starts
+        {
+            field.player1Turn(round); //player 1 turn
+            if (field.player2.getPlayerStats().getHearts() == 0) // checking if player 1 turn ended in a victory
+            {
+                System.out.println("You win!");
+                break;
+            }
+            System.out.println(field.getPlayer1().getPlayerStats());
+
+            field.player2Turn(round); //player 2 turn
+            if (field.player1.getPlayerStats().getHearts() == 0) // checking in player 2 turn ended in a loss
+            {
+                System.out.println("You lost!");
+                break;
+            }
+
+            System.out.println(field.getPlayer1().getPlayerStats()); //display player1 stats for that round
+            round++;
+        }
+    
+        field.getPlayer1().getPlayerStats().writeFinalOutcome(round); //write the final outcome of the match to a txt file
+    }
+
+    /** Method that controls player1's turn
+     * @param   round        The current round as an integer.
+     */
+    private void player1Turn(int round)
+    {
+        while (true)
+        {
+            System.out.println("\n\n Round " + round);
+            int choice = this.input.acceptInt("\n\n1. Capture Grid Spot \n2. Sabotage Enemy" 
+                                                      + "\n3. Direct Strike at Heart \n");            
+            if (choice == 1) // Play Capture
+            {
+                this.capture.playCapture(this.player1, this.player2,
+                                        this.board);
+                this.board.renderBoard();
+                break;
+            }
+            else if (choice == 2) // Play Sabotage
+            {
+                this.sabotage.playSabotage(this.player1, this.player2, 
+                                            this.board, false);
+                break;
+            }
+            else if (choice == 3) // Play Strike
+            {
+                this.strike.playStrike(this.board.getGrid(), this.player1,
+                                        this.player2, false);
+                break;
+            }
+            else
+            {
+                System.out.println("Invalid choice selected");
+            }    
+        }
+    }
+
+    /** Method that controls player2's turn
+     * @param   round        The current round as an integer.
+     */  
+    private void player2Turn(int round)
+    {
+        System.out.println("\n\n" + this.player2.getName() + "'s turn");
+        this.getInput().pressAnyKeyToContinue(); //ask user input to start player 2's turn
+        boolean playerCanStrike = this.strike.canPlayStrike(this.board.getGrid(),
+                                                            this.player1, this.player2, false);
+        boolean computerCanStrike = this.strike.canPlayStrike(this.board.getGrid(),
+                                                                this.player1, this.player2, true);
+        int choice = 0;
+        Random random = new Random(); /**random integers are generated to determine the move of the computer.
+                                        If Player 1 can strike, or if it is the first round, the choices are
+                                        weighted/set accordingly */
+        if (round == 1)
+        {
+            choice = 1;
+        } 
+        else if (computerCanStrike)
+        {
+            choice = random.nextInt(3) + 1;
+        }
+        else
+        {
+            choice = random.nextInt(2) + 1;
+        }
+
+        switch (choice) // this is the execution of the actual gameplay functions for the computer's turn.
+        {
+            case 1: //play capture
+                this.capture.playCaptureComputer(this.player1, this.player2,
+                                                    this.board);
+                this.board.renderBoard();
+                break;
+            case 2: //play sabotage
+                this.sabotage.playSabotageComputer(this.player1, this.player2,
+                                                    this.board, playerCanStrike);
+                break;
+            case 3: //play strike
+                this.strike.playStrike(this.board.getGrid(), this.player1, this.player2, true);
+                break;
+            default:
+                break;
+        }
+    } 
+
+    /** Mutator method to set the game board
+     * @param   board        An object of type Board
+     */      
+    public void setBoard(Board board)
+    {
+        this.board = board;
+    }
+
+    /** Mutator method to set the game boosts
+     * @param   boosts        An object of type Boost
+     */      
+    public void setBoosts(Boosts boosts)
+    {
+        this.boosts = boosts;
+    }
+    
+    /** Mutator method to set the first player
+     * @param   player1        an object of type Player
+     */   
+    public void setPlayer1(Player player1)
+    {
+        this.player1 = player1;
+    }
+
+    /** Mutator method to set the second player
+     * @param   player2        An object of type Player
+     */   
+    public void setPlayer2(Player player2)
+    {
+        this.player2 = player2;
+    }
+
+    /**
+     * Mutator method to set the Sabotage game mode
+     * @param   sabotage        An object of type Sabotage
+     */   
+    public void setSabotage(Sabotage sabotage)
+    {
+        this.sabotage = sabotage;
+    }
+
+    /** toString method to return the state of the object
+     * @return                  The state of the object as a string
+     */   
+    public String toString()
+    {
+        return ("Board: " + board + "\nBoosts: " + boosts + "Player 1: " + player1
+                + "Player 2: " + player2);
+    }
 
 }
   
